@@ -38,8 +38,8 @@
             @click="dialogVisible = true"
             class="global-post__button global-post__button--icon"
         >
-          <span>Open post</span>
-          <Icon icon="mdi:chevron-down" width="20" height="20"/>
+          <span>My post</span>
+          <Icon icon="line-md:downloading-loop" width="24" height="24"/>
         </my-button>
       </div>
     </header>
