@@ -1,21 +1,37 @@
-import {createRouter, createWebHistory} from "vue-router";
-import Main from "@/pages/Main.vue";
-import About from "@/pages/About.vue";
-import PostPage from "@/pages/PostPage.vue";
-import ContentPost from "@/pages/ContentPost.vue";
-// import CompositionPost from "@/pages/CompositionPost.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-    {path: '/', component: Main},
-    {path: '/about', component: About},
-    {path: '/posts', component: PostPage},
-    {path: '/posts/:id', component: ContentPost},
-    // {path: '/composition', component: CompositionPost},
+    {
+        path: "/",
+        name: "Main",
+        component: () => import("@/pages/Main.vue"),
+    },
+    {
+        path: "/about",
+        name: "About",
+        component: () => import("@/pages/About.vue"),
+    },
+    {
+        path: "/posts",
+        name: "Posts",
+        component: () => import("@/pages/PostPage.vue"),
+    },
+    {
+        path: "/posts/:id",
+        name: "PostDetail",
+        component: () => import("@/pages/ContentPost.vue"),
+        props: true,
+    },
+    // {
+    //   path: "/composition",
+    //   name: "Composition",
+    //   component: () => import("@/pages/CompositionPost.vue"),
+    // },
 ];
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_BASE_URL),
-    routes
+    routes,
 });
 
 export default router;
