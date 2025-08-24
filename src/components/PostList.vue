@@ -17,6 +17,7 @@
             :post="element"
             @delete="$emit('delete', element.id)"
             @pin="togglePin"
+            class="post-list__item"
         />
       </template>
     </draggable>
