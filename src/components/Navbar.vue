@@ -1,12 +1,17 @@
 <template>
-  <nav class="navbar" :class="{ 'navbar--bottom': isBottom }" role="navigation" aria-label="Main">
+  <nav
+      class="navbar"
+      :class="{ 'navbar--bottom': isBottom }"
+      role="navigation"
+      aria-label="Main navigation"
+  >
     <router-link
         v-for="item in navItems"
         :key="item.path"
         :to="item.path"
-        :class="{ 'navbar__link--active': isActive(item) }"
-        :aria-label="item.label"
         class="navbar__link"
+        :class="{ 'navbar__link--active': isActive(item.path) }"
+        :aria-label="item.label"
     >
       <Icon :icon="item.icon" class="navbar__icon"/>
       <span class="navbar__label">{{ item.label }}</span>
@@ -16,22 +21,18 @@
 
 <script setup>
 import {computed} from 'vue'
-
 import {useRoute} from 'vue-router'
 import {Icon} from '@iconify/vue'
 
 const navItems = [
-  {path: '/', label: 'Main', icon: 'mdi:home-variant-outline'},
-  {path: '/posts', label: 'Post', icon: 'mdi:post-outline'},
+  {path: '/main', label: 'Main', icon: 'mdi:home-variant-outline'},
+  {path: '/posts', label: 'Posts', icon: 'mdi:post-outline'},
   {path: '/about', label: 'About', icon: 'mdi:account-circle-outline'},
-  // {path: '/composition', label: 'Compos', icon: 'mdi:post-outline'},
 ]
 
 const route = useRoute()
-const isActive = (item) => {
-  if (item.path === '/') return route.path === '/'
-  return route.path.startsWith(item.path)
-}
+
+const isActive = (path) => route.path === path || route.path.startsWith(path + '/')
 
 const isBottom = computed(() => window.matchMedia('(max-width: 768px)').matches)
 </script>
