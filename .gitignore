@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+src/ARCHITECTURE.md
+src/ARCHITECTURE_IMPROVEMENTS.md
+src/features/posts/NEWS_API_INTEGRATION.md
 
 # Editor directories and files
 .vscode/*

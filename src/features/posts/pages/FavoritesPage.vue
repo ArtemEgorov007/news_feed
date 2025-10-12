@@ -143,7 +143,7 @@ export default {
 }
 
 .dark-theme .favorites-page__title{
-  color: var(--color-neutral-100);
+  color: var(--color-neutral-500);
 }
 
 .dark-theme .favorites-page__empty {
@@ -164,7 +164,7 @@ export default {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .favorites-page__title {
     font-size: var(--font-size-2xl);
   }
