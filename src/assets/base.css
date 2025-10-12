@@ -27,14 +27,14 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: color 0.5s, background-color 0.5s;
+    transition: background-color 0.3s ease, color 0.3s ease;
     background-color: var(--color-neutral-50);
     color: var(--color-neutral-800);
 }
 
 .dark-theme body {
-    background-color: var(--color-neutral-900);
-    color: var(--color-neutral-100);
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
 /* Remove list styles */
@@ -52,6 +52,14 @@ a {
 
 a:hover {
     color: var(--color-primary-800);
+}
+
+.dark-theme a {
+    color: var(--color-primary-400);
+}
+
+.dark-theme a:hover {
+    color: var(--color-primary-300);
 }
 
 /* Make images responsive */
@@ -83,4 +91,13 @@ input:focus-visible,
 textarea:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
+}
+
+/* Theme color meta tag for mobile browsers */
+meta[name="theme-color"] {
+    content: var(--color-neutral-50);
+}
+
+.dark-theme meta[name="theme-color"] {
+    content: var(--color-neutral-900);
 }

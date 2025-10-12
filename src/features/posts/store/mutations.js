@@ -2,15 +2,14 @@ export const postMutations = {
     setPosts(state, posts) {
         state.posts = posts.map(p => ({
             ...p,
-            pinned: false
+            pinned: p.pinned || false
         }));
     },
 
     addPosts(state, newPosts) {
         const mapped = newPosts.map(p => ({
             ...p,
-            id: Date.now() + Math.floor(Math.random() * 10000),
-            pinned: false
+            pinned: p.pinned || false
         }));
         state.posts = [...state.posts, ...mapped];
     },
@@ -25,20 +24,6 @@ export const postMutations = {
     removePost(state, postId) {
         state.posts = state.posts.filter(p => p.id !== postId);
         state.localPosts = state.localPosts.filter(p => p.id !== postId);
-    },
-
-    updatePost(state, updatedPost) {
-        const index = state.localPosts.findIndex(p => p.id === updatedPost.id);
-        if (index !== -1) {
-            updatedPost.pinned = state.localPosts[index].pinned;
-            state.localPosts[index] = {...state.localPosts[index], ...updatedPost};
-        }
-
-        const indexGlobal = state.posts.findIndex(p => p.id === updatedPost.id);
-        if (indexGlobal !== -1) {
-            updatedPost.pinned = state.posts[indexGlobal].pinned;
-            state.posts[indexGlobal] = {...state.posts[indexGlobal], ...updatedPost};
-        }
     },
 
     setLoading(state, value) {
@@ -81,8 +66,9 @@ export const postMutations = {
         // Check if post is already in favorites
         const isAlreadyFavorite = state.favorites.some(fav => fav.id === post.id);
         if (!isAlreadyFavorite) {
-            state.favorites.push({...post});
-        }
+            // Create a deep copy to avoid reference issues
+           state.favorites.push(JSON.parse(JSON.stringify(post)));
+       }
     },
 
     removeFavorite(state, postId) {

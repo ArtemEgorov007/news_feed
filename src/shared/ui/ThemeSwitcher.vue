@@ -1,20 +1,20 @@
 <template>
   <div class="theme-switcher">
-    <button 
-      @click="toggleTheme" 
+    <button
+      @click="toggleTheme"
       class="theme-switcher__button"
       :aria-label="`Switch to ${currentTheme === 'light' ? 'dark' : 'light'} theme`"
     >
-      <Icon 
-        v-if="currentTheme === 'light'" 
-        icon="mdi:white-balance-sunny" 
-        width="20" 
+      <Icon
+        v-if="currentTheme === 'light'"
+        icon="mdi:white-balance-sunny"
+        width="20"
         height="20"
       />
-      <Icon 
-        v-else 
-        icon="mdi:moon-waning-crescent" 
-        width="20" 
+      <Icon
+        v-else
+        icon="mdi:moon-waning-crescent"
+        width="20"
        height="20"
       />
     </button>
@@ -38,13 +38,13 @@ export default {
     // Check for saved theme or respect system preference
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     if (savedTheme) {
       this.currentTheme = savedTheme;
-} else if (systemPrefersDark) {
+    } else if (systemPrefersDark) {
       this.currentTheme = 'dark';
     }
-    
+
     this.applyTheme();
   },
   methods: {
@@ -56,19 +56,17 @@ export default {
     applyTheme() {
       // Add a class to the body for transition
       document.body.classList.add('theme-transition');
-      
+
       if (this.currentTheme === 'dark') {
         document.documentElement.classList.add('dark-theme');
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--color-neutral-900'));
       } else {
         document.documentElement.classList.remove('dark-theme');
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--color-neutral-50'));
       }
-      
+
       // Remove transition class after animation completes
       setTimeout(() => {
         document.body.classList.remove('theme-transition');
-      }, 500);
+      }, 300);
     }
   }
 };
@@ -77,7 +75,7 @@ export default {
 <style scoped>
 .theme-switcher__button {
   background: transparent;
-  border: 1px solid var(--color-primary-300);
+  border: 1px solid transparent;
   border-radius: var(--border-radius-full);
   padding: var(--spacing-sm);
   cursor: pointer;
@@ -85,7 +83,7 @@ export default {
   align-items: center;
   justify-content: center;
   transition: all var(--transition-fast);
-  color: var(--color-primary-600);
+  color: var(--color-primary-100);
   position: relative;
   overflow: hidden;
 }

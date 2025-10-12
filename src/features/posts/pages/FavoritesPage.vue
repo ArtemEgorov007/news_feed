@@ -12,7 +12,7 @@
 
     <main class="favorites-page__main">
       <div v-if="favorites.length === 0" class="favorites-page__empty">
-        <Icon icon="mdi:heart-outline" width="64" height="64" class="favorites-page__empty-icon"/>
+       <Icon icon="mdi:heart-outline" width="64" height="64" class="favorites-page__empty-icon"/>
         <h2>No Favorite Posts Yet</h2>
         <p>Click the heart icon on posts to add them to your favorites</p>
         <my-button @click="$router.push('/posts')" variant="primary">
@@ -42,7 +42,7 @@ export default {
     ...mapState("post", ["favorites"])
   },
 
-  methods: {
+  methods:{
     handleRemoveFavorite(postId) {
       this.$store.commit("post/removeFavorite", postId);
     }
@@ -50,80 +50,123 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-.favorites-page
-  padding: clamp(1.25rem, 1rem + 1.25vw, 2.5rem)
+<style scoped>
+.favorites-page {
+  padding: clamp(1.25rem, 1rem + 1.25vw, 2.5rem);
+ max-width: 1200px;
+  margin: 0 auto;
+}
 
-.favorites-page__header
-  display: flex
-  justify-content: space-between
-  align-items: center
-  margin-bottom: 30px
-  padding-bottom: 20px
-  border-bottom: 1px solid #eee
-  flex-wrap: wrap
-  gap: 15px
+.favorites-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
 
-.favorites-page__back
-  text-decoration: none
-  color: #1d4ed8
-  font-weight: 500
-  transition: color 0.2s ease
+.favorites-page__back {
+  text-decoration: none;
+  color: var(--color-primary-600);
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
 
-  &:hover
-    color: #1e3a8a
+.favorites-page__back:hover {
+  color: var(--color-primary-800);
+}
 
-.favorites-page__title
-  font-size: 2rem
-  font-weight: 600
-  margin: 0
-  text-align: center
+.favorites-page__title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  color: var(--color-neutral-900);
+}
 
-.favorites-page__count
-  background: #1e3a8a
-  color: white
-  padding: 5px 15px
-  border-radius: 20px
-  font-weight: 500
+.favorites-page__count {
+  background: var(--color-primary-600);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-full);
+  font-weight: var(--font-weight-medium);
+}
 
-.favorites-page__main
-  margin-top: 30px
+.favorites-page__main {
+  margin-top: var(--spacing-lg);
+}
 
-.favorites-page__empty
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: center
-  text-align: center
-  padding: 60px 20px
-  color: #666
+.favorites-page__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  color: var(--color-neutral-500);
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
 
-.favorites-page__empty-icon
-  color: #ccc
-  margin-bottom: 20px
+.favorites-page__empty-icon {
+  color: var(--color-neutral-300);
+  margin-bottom: var(--spacing-md);
+}
 
-.favorites-page__empty h2
-  color: #333
-  margin-bottom: 10px
+.favorites-page__empty h2 {
+  color: var(--color-neutral-800);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-2xl);
+}
 
-.favorites-page__empty p
-  margin-bottom: 30px
+.favorites-page__empty p {
+  margin-bottom:var(--spacing-lg);
+  color: var(--color-neutral-600);
+}
 
-.dark-theme .favorites-page__header
-  border-bottom: 1px solid var(--color-border)
+.dark-theme .favorites-page__header {
+  border-bottom: 1px solid var(--color-border);
+}
 
-.dark-theme .favorites-page__back
-  color: var(--color-primary-400)
+.dark-theme .favorites-page__back {
+  color: var(--color-primary-400);
+}
 
-.dark-theme .favorites-page__back:hover
-  color: var(--color-primary-300)
+.dark-theme .favorites-page__back:hover {
+  color: var(--color-primary-300);
+}
 
-.dark-theme .favorites-page__empty
-  color: var(--color-neutral-400)
+.dark-theme .favorites-page__title{
+  color: var(--color-neutral-100);
+}
 
-.dark-theme .favorites-page__empty h2
-  color: var(--color-neutral-200)
+.dark-theme .favorites-page__empty {
+  background: var(--color-card-background);
+  color: var(--color-neutral-400);
+}
 
-.dark-theme .favorites-page__empty-icon
-  color: var(--color-neutral-600)
+.dark-theme .favorites-page__empty h2 {
+  color: var(--color-neutral-200);
+}
+
+.dark-theme .favorites-page__empty-icon {
+  color: var(--color-neutral-600);
+}
+
+@media (max-width: 768px) {
+  .favorites-page__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .favorites-page__title {
+    font-size: var(--font-size-2xl);
+  }
+}
 </style>

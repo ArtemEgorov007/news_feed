@@ -66,6 +66,24 @@ export default {
   gap: var(--spacing-lg);
 }
 
+.app-footer__links a {
+  color: var(--color-primary-600);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.app-footer__links a:hover {
+  color: var(--color-primary-800);
+}
+
+.dark-theme .app-footer__links a {
+  color: var(--color-primary-400);
+}
+
+.dark-theme .app-footer__links a:hover {
+  color: var(--color-primary-300);
+}
+
 @media (max-width: 768px) {
   .app-footer__content {
     flex-direction:column;

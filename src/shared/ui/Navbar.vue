@@ -26,6 +26,14 @@
         <theme-switcher />
       </li>
     </ul>
+    
+    <!-- Progress bar -->
+    <div class="navbar__progress">
+      <div 
+        class="navbar__progress-bar" 
+        :style="{ width: scrollProgress + '%' }"
+      ></div>
+    </div>
   </nav>
 </template>
 
@@ -38,6 +46,27 @@ export default {
   components: {
     Icon,
     ThemeSwitcher
+  },
+  data() {
+    return {
+      scrollProgress: 0
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+    // Initialize progress on load in case we're not at the top
+    this.handleScroll();
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      const scrollTop = window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (documentHeight > 0) ? (scrollTop / documentHeight) * 100 : 0;
+      this.scrollProgress = progress;
+    }
   }
 }
 </script>
@@ -120,6 +149,21 @@ export default {
 .navbar__link.router-link-exact-active {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
+}
+
+.navbar__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar__progress-bar {
+  height: 100%;
+  background-color: var(--color-primary-300);
+  transition: width 0.1s ease-out;
 }
 
 .dark-theme .navbar__link {

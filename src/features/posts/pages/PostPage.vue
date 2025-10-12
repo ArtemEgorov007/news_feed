@@ -12,7 +12,6 @@
 
         <div class="posts-page__search-container">
           <my-input
-              v-focus
               :model-value="searchQuery"
               @update:model-value="setSearchQuery"
               placeholder="Search posts..."
@@ -32,7 +31,7 @@
           >
             <Icon
                 :icon="isPostsLoading ? 'mdi:loading' : 'mdi:reload'"
-                width="20"
+               width="20"
                 height="20"
                 :class="{'posts-page__refresh-icon--spinning': isPostsLoading}"
             />
@@ -46,22 +45,8 @@
               placeholder="Sort by"
           />
         </div>
-
-        <my-button
-            :disabled="isPostsLoading"
-            variant="primary"
-            @click="dialogVisible = true"
-            class="posts-page__button posts-page__button--new"
-        >
-          <Icon icon="mdi:plus" width="20" height="20"/>
-          <span>New Post</span>
-        </my-button>
-      </div>
+     </div>
     </header>
-
-    <my-dialog v-model:show="dialogVisible">
-      <post-form @create="createPost" class="posts-page__form"/>
-    </my-dialog>
 
     <main class="posts-page__main">
       <div v-if="isPostsLoading && page === 1" class="posts-page__loading">
@@ -72,11 +57,7 @@
       <div v-else-if="sortedAndSearchedPosts.length === 0 && !isPostsLoading" class="posts-page__empty">
         <Icon icon="mdi:file-document-outline" width="64" height="64" class="posts-page__empty-icon"/>
         <h3 class="posts-page__empty-title">No posts found</h3>
-        <p class="posts-page__empty-description">Try changing your search or create a new post</p>
-        <my-button @click="dialogVisible = true" variant="primary">
-          <Icon icon="mdi:plus" width="20" height="20"/>
-          <span>Create Post</span>
-        </my-button>
+        <p class="posts-page__empty-description">Try changing your search or check back later</p>
       </div>
 
       <post-list
@@ -92,9 +73,12 @@
 
       <div v-intersection="loadMorePosts" class="posts-page__observer-target"></div>
 
-      <div v-if="error" class="error-message">
+     <div v-if="error" class="error-message">
         <Icon icon="mdi:alert-circle" width="24" height="24"/>
-        <p>Unable to load data from the server. Test data is displayed.</p>
+        <div>
+          <p><strong>Unable to load data from the server.</strong></p>
+          <p>Displaying test data. {{ error }}</p>
+        </div>
       </div>
     </main>
 
@@ -107,25 +91,18 @@
       >
         <Icon icon="mdi:arrow-up" width="24" height="24"/>
       </my-button>
-    </transition>
+</transition>
   </div>
 </template>
 
 <script>
 import {mapState, mapActions, mapGetters, mapMutations} from "vuex";
-
 import {Icon} from "@iconify/vue";
-
-import {PostForm, PostList} from "@/features/posts/components";
+import {PostList} from "@/features/posts/components";
 
 export default {
-  name: "GlobalPost",
-
-  components: {PostForm, PostList, Icon},
-
-  data: () => ({
-    dialogVisible: false
-  }),
+  name:"GlobalPost",
+  components: {PostList, Icon},
 
   computed: {
     ...mapState("post", [
@@ -144,7 +121,7 @@ export default {
 
     favoritesCount() {
       return this.favorites.length;
-    }
+   }
   },
 
   methods: {
@@ -156,11 +133,6 @@ export default {
     ]),
 
     ...mapActions("post", ["loadMorePosts", "fetchPosts"]),
-
-    createPost(post) {
-      this.$store.commit("post/addLocalPost", post);
-      this.dialogVisible = false;
-    },
 
     deletePost(postId) {
       this.removePost(postId);
@@ -211,7 +183,7 @@ export default {
   align-items: center;
   margin-bottom: var(--spacing-lg);
   flex-wrap: wrap;
-  gap: var(--spacing-md);
+  gap:var(--spacing-md);
 }
 
 @media (max-width: 768px) {
@@ -237,13 +209,13 @@ export default {
 
 .posts-page__favorites-link {
   display: flex;
-  align-items: center;
+align-items: center;
   gap: var(--spacing-xs);
   background: var(--color-neutral-100);
   color: var(--color-neutral-700);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-full);
-  text-decoration: none;
+  text-decoration:none;
   font-weight: var(--font-weight-medium);
   transition: all var(--transition-fast);
 }
@@ -260,20 +232,20 @@ export default {
 
 .posts-page__actions {
   display: flex;
-  justify-content: space-between;
+  justify-content:space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--spacing-md);
 }
 
 @media (max-width: 768px) {
-  .posts-page__actions {
+  .posts-page__actions{
     flex-direction: column;
     align-items: stretch;
   }
 }
 
-.posts-page__controls {
+.posts-page__controls{
   display: flex;
   gap: var(--spacing-md);
   align-items: center;
@@ -281,13 +253,13 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .posts-page__controls {
+  .posts-page__controls{
     flex-direction: column;
     align-items: stretch;
   }
 }
 
-.posts-page__button {
+.posts-page__button{
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
@@ -300,7 +272,7 @@ export default {
 }
 
 .posts-page__button--new:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow:var(--shadow-lg);
   transform: translateY(-2px);
 }
 
@@ -315,7 +287,7 @@ export default {
 .posts-page__loading,
 .posts-page__loading-more {
   display: flex;
-  flex-direction: column;
+flex-direction:column;
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
@@ -328,10 +300,10 @@ export default {
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid var(--color-neutral-200);
+border: 4px solid var(--color-neutral-200);
   border-top: 4px solid var(--color-primary-500);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+ animation: spin 1s linear infinite;
   margin-bottom: 20px;
 }
 
@@ -344,7 +316,7 @@ export default {
   height: 20px;
 }
 
-.posts-page__scroll-top {
+.posts-page__scroll-top{
   position: fixed;
   bottom: 30px;
   right: 30px;
@@ -356,7 +328,7 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow:var(--shadow-lg);
   transition: all var(--transition-fast);
 }
 
@@ -369,12 +341,12 @@ export default {
 .posts-page__empty {
   display: flex;
   flex-direction: column;
-  align-items: center;
+ align-items: center;
   justify-content: center;
   padding: var(--spacing-2xl) var(--spacing-lg);
   text-align: center;
   background: white;
-  border-radius: var(--border-radius-lg);
+  border-radius:var(--border-radius-lg);
   box-shadow: var(--shadow-md);
 }
 
@@ -387,7 +359,7 @@ export default {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
   color: var(--color-neutral-800);
-  margin-bottom: var(--spacing-sm);
+margin-bottom: var(--spacing-sm);
 }
 
 .posts-page__empty-description {
@@ -403,7 +375,7 @@ export default {
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-lg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--spacing-sm);
 }
 
@@ -435,7 +407,7 @@ export default {
     min-width: auto;
   }
 
-  .posts-page__actions {
+  .posts-page__actions{
     flex-direction: column;
   }
 
@@ -446,6 +418,6 @@ export default {
   .posts-page__button {
     justify-content: center;
     width: 100%;
-  }
+}
 }
 </style>

@@ -18,7 +18,8 @@ export const postGetters = {
 
     sortedAndSearchedPosts(state, getters) {
         return getters.sortedPosts.filter(post =>
-            post.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+            post.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+            post.body.toLowerCase().includes(state.searchQuery.toLowerCase())
         );
     }
 };

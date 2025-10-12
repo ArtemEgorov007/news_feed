@@ -1,5 +1,5 @@
 <template>
-  <div class="post-list" v-if="localPosts.length">
+  <div class="post-list">
     <div class="post-list__container">
       <post-item
           v-for="element in sortedPosts"
@@ -9,10 +9,6 @@
           @pin="togglePin"
       />
     </div>
-  </div>
-
-  <div v-else class="post-list__empty">
-    <h3 class="post-list__empty-title">No posts yet</h3>
   </div>
 </template>
 
@@ -32,15 +28,8 @@ export default {
 
   data() {
     return {
-      localPosts: [...this.posts],
       isMobile: window.innerWidth <= 768,
     };
-  },
-
-  watch: {
-    posts(newPosts) {
-      this.localPosts = [...newPosts];
-    },
   },
 
   mounted() {
@@ -52,17 +41,12 @@ export default {
   },
 
   computed: {
-    sortedPosts: {
-      get() {
-        return [...this.localPosts].sort((a, b) => {
-          if (a.pinned && !b.pinned) return -1;
-          if (!a.pinned && b.pinned) return 1;
-          return 0;
-        });
-      },
-      set(val) {
-        this.localPosts = val;
-      },
+    sortedPosts() {
+      return [...this.posts].sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        return 0;
+      });
     },
   },
 
@@ -76,60 +60,90 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-.post-list
-  max-width: 1400px
-  margin: 30px auto
+<style scoped>
+.post-list {
+  max-width: 1400px;
+  margin: var(--spacing-lg) auto;
+}
 
-.post-list__title
-  text-align: center
-  color: #1e293b
-  margin-bottom: 30px
-  font-size: 2rem
-  font-weight: 800
-  letter-spacing: -0.02em
+.post-list__title {
+  text-align: center;
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing:-0.02em;
+}
 
-.post-list__container
-  display: grid
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))
-  gap: 28px
-  padding: 8px
+.post-list__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
+  padding: var(--spacing-sm);
+}
 
-.post-list__empty
-  text-align: center
-  padding: 80px 20px
-  background: linear-gradient(145deg, #f8fafc, #f1f5f9)
-  border-radius: 24px
-  margin: 30px auto
-  max-width: 600px
+.post-list__empty {
+  text-align:center;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  background: var(--color-neutral-50);
+  border-radius: var(--border-radius-lg);
+  margin: var(--spacing-lg) auto;
+  max-width: 600px;
+  box-shadow: var(--shadow-md);
+}
 
-.post-list__empty-title
-  color: #64748b
-  font-weight: 600
-  font-size: 1.5rem
+.post-list__empty-title {
+  color: var(--color-neutral-600);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xl);
+}
 
-.post-list__item
-  position: relative
-  height: 100%
-  transition: transform 0.3s ease, box-shadow 0.3s ease
+.post-list__item {
+  position: relative;
+  height: 100%;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
 
-  &:hover
-    transform: translateY(-6px)
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.06)
+.post-list__item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
 
-@media (max-width: 768px)
-  .post-list__container
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
-    gap: 20px
+.dark-theme .post-list__empty {
+  background: var(--color-card-background);
+}
 
-@media (max-width: 480px)
-  .post-list__container
-    grid-template-columns: 1fr
-    gap: 20px
+.dark-theme .post-list__title {
+  color: var(--color-neutral-100);
+}
 
-  .post-list__item
-    min-height: 260px
+.dark-theme .post-list__empty-title {
+  color: var(--color-neutral-400);
+}
 
-  .post-list__title
-    font-size: 1.75rem
+@media (max-width: 768px) {
+  .post-list__container {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+  
+  .post-list__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .post-list__container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .post-list__item {
+    min-height: 260px;
+  }
+
+  .post-list__title {
+    font-size: var(--font-size-xl);
+  }
+}
 </style>

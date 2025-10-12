@@ -6,6 +6,7 @@
           :class="{ 'post-card__favorite--active': isFavorite }"
           @click="toggleFavorite"
           :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+          :aria-label="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
       >
         <Icon :icon="isFavorite ? 'mdi:heart' : 'mdi:heart-outline'" width="20" height="20"/>
       </div>
@@ -14,17 +15,18 @@
           class="post-card__pin"
           :title="post.pinned ?'Unpin' : 'Pin'"
           @click="$emit('pin', post.id)"
+          :aria-label="post.pinned ? 'Unpin post' : 'Pin post'"
       >
         <Icon :icon="post.pinned ? 'mdi:pin' : 'mdi:pin-outline'" width="20" height="20"/>
       </div>
     </div>
 
-    <!-- Add click handlerto the entire card content to show details -->
+    <!-- Add click handler to the entire card content to show details -->
     <div class="post-card__content" @click="showDetails = true">
       <h4 class="post-card__title">{{ post.title }}</h4>
       <p class="post-card__description">{{ post.body }}</p>
 
-      <!-- Display additional information fornews articles-->
+      <!-- Display additional information for news articles-->
       <div v-if="post.source || post.publishedAt" class="post-card__meta">
         <span v-if="post.source" class="post-card__source">{{ post.source }}</span>
         <span v-if="post.publishedAt" class="post-card__date">{{ formatDate(post.publishedAt) }}</span>
@@ -32,15 +34,15 @@
     </div>
 
     <div class="post-card__footer">
-      <delete-icon
-          @delete="onDelete"
+      <delete-icon 
+        @delete="onDelete"
           title="Delete post"
           class="post-card__delete"
       />
 
       <!-- Button to read full article or view details -->
       <my-button
-v-if="post.url && post.url !== '#'"
+          v-if="post.url && post.url !== '#'"
           variant="primary"
           size="small"
           @click="openArticle(post.url)"
@@ -51,85 +53,93 @@ v-if="post.url && post.url !== '#'"
       </my-button>
 
       <my-button
-          v-else
+         v-else
           variant="primary"
           size="small"
           @click="showDetails = true"
           class="post-card__button"
       >
-        <Icon icon="mdi:eye" width="16"height="16"/>
+       <Icon icon="mdi:eye" width="16" height="16"/>
         <span>View Details</span>
       </my-button>
     </div>
   </div>
 
   <!-- Modal for detailed view -->
-  <my-dialog v-model:show="showDetails">
-    <div class="post-details-modal">
+  <div v-if="showDetails" class="my-dialog" @click="showDetails = false">
+    <div class="post-details-modal" @click.stop>
       <div class="post-details-modal__header">
         <h2 class="post-details-modal__title">{{ post.title }}</h2>
-        <button 
-          class="post-details-modal__close" 
-          @click="showDetails = false"
+        <button
+          class="post-details-modal__close"
+          @click="showDetails= false"
           aria-label="Close dialog"
         >
-          <Icon icon="mdi:close" width="24"height="24" />
+          <Icon icon="mdi:close" width="24" height="24"/>
         </button>
       </div>
-      
+
       <div class="post-details-modal__content">
         <p class="post-details-modal__body">{{ post.body }}</p>
-        
+
         <div class="post-details-modal__info">
           <!-- Removed ID from display as requested -->
-          <div v-if="post.source" class="post-details-modal__info-item">
+          <div v-if="post.source"class="post-details-modal__info-item">
             <span class="post-details-modal__info-label">Source:</span>
             <span class="post-details-modal__info-value">{{ post.source }}</span>
           </div>
-          
+
           <div v-if="post.publishedAt" class="post-details-modal__info-item">
-            <span class="post-details-modal__info-label">Published:</span>
+           <span class="post-details-modal__info-label">Published:</span>
             <span class="post-details-modal__info-value">{{ formatDate(post.publishedAt) }}</span>
           </div>
         </div>
       </div>
-      
+
       <div class="post-details-modal__actions">
         <my-button @click="showDetails = false" variant="secondary">
           Close
         </my-button>
+        
+        <my-button 
+          v-if="post.url && post.url !== '#'"
+          @click="openArticle(post.url)" 
+          variant="primary"
+        >
+          <Icon icon="mdi:open-in-new" width="16" height="16"/>
+          <span>Read Full Article</span>
+        </my-button>
       </div>
     </div>
-  </my-dialog>
+  </div>
 </template>
 
 <script>
 import {DeleteIcon} from "@/shared/ui";
 import {Icon} from "@iconify/vue";
-import MyDialog from "@/shared/ui/MyDialog.vue";
 
 export default {
   name: "PostItem",
-  components: {DeleteIcon, Icon, MyDialog},
+ components: {DeleteIcon, Icon},
 
   props: {
     post: {type: Object, required: true},
- },
+  },
 
   emits: ["delete", "pin"],
 
-data() {
+  data() {
     return {
       showDetails: false
     };
   },
 
-computed: {
-    isFavorite() {
-      // Check if post is in favorites
+  computed: {
+    isFavorite(){
+      // Check ifpost is in favorites
       return this.$store.state.post.favorites.some(fav => fav.id === this.post.id);
     }
-  },
+},
 
   methods: {
     onDelete() {
@@ -141,16 +151,18 @@ computed: {
     },
 
     formatDate(dateString) {
-      const options = {year: 'numeric', month: 'short', day: 'numeric'};
-      return new Date(dateString).toLocaleDateString(undefined, options);
+      const options = {year:'numeric', month: 'short', day: 'numeric'};
+     return new Date(dateString).toLocaleDateString(undefined, options);
     },
 
-    toggleFavorite() {
+   toggleFavorite() {
       if (this.isFavorite) {
         this.$store.commit("post/removeFavorite", this.post.id);
       } else {
-        this.$store.commit("post/addFavorite", this.post);
-      }
+        //Create a copy of thepost to avoid reference issues
+        const postCopy = {...this.post};
+        this.$store.commit("post/addFavorite", postCopy);
+}
     }
   }
 };
@@ -161,17 +173,17 @@ computed: {
   position: relative;
   overflow: hidden;
   border-radius: var(--border-radius-lg);
-  background: white;
+ background: white;
   box-shadow: var(--shadow-md);
   transition: all var(--transition-normal), transform var(--transition-fast);
-  display: flex;
+ display: flex;
   flex-direction: column;
-  height: 100%;
+height: 100%;
   animation: fadeInUp 0.4s ease forwards;
   opacity: 0;
-  transform: translateY(15px);
+transform: translateY(15px);
   border: 1px solid var(--color-neutral-100);
-  cursor: pointer; /* Add cursor to indicate card is clickable */
+  cursor: pointer;/* Add cursor to indicate card is clickable*/
 }
 
 .post-card:hover {
@@ -192,7 +204,7 @@ computed: {
 }
 
 .dark-theme .post-card__content:hover {
-  background-color: var(--color-neutral-700);
+  background-color: var(--color-neutral-200);
 }
 
 .post-card__header {
@@ -206,7 +218,7 @@ computed: {
   color: var(--color-neutral-400);
   transition: all var(--transition-fast);
   cursor: pointer;
-border-radius: var(--border-radius-full);
+  border-radius: var(--border-radius-full);
   padding: var(--spacing-sm);
   display: flex;
   align-items: center;
@@ -215,13 +227,13 @@ border-radius: var(--border-radius-full);
 
 .post-card__favorite:hover,
 .post-card__pin:hover {
-  background-color: var(--color-neutral-100);
+ background-color: var(--color-neutral-100);
   transform: scale(1.1);
 }
 
 .post-card__favorite:hover,
 .post-card__favorite--active {
-  color: var(--color-error-500);
+  color:var(--color-error-500);
 }
 
 .post-card__favorite--active {
@@ -234,8 +246,8 @@ border-radius: var(--border-radius-full);
 
 @keyframes pulse {
   0% {
-    transform: scale(1);
-  }
+transform: scale(1);
+}
   50% {
     transform: scale(1.2);
   }
@@ -245,7 +257,7 @@ border-radius: var(--border-radius-full);
 }
 
 .post-card__content {
-flex: 1;
+  flex: 1;
   padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
@@ -257,14 +269,14 @@ flex: 1;
   color: var(--color-neutral-900);
   margin-bottom: var(--spacing-sm);
   line-height: 1.4;
-  letter-spacing: -0.01em;
+letter-spacing: -0.01em;
 }
 
 .post-card__description {
   font-size: var(--font-size-base);
   color: var(--color-neutral-600);
   line-height: 1.6;
- margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
   flex: 1;
 }
 
@@ -274,7 +286,7 @@ flex: 1;
   margin-top: auto;
   padding-top: var(--spacing-md);
   border-top: 1px solid var(--color-neutral-100);
- font-size: var(--font-size-sm);
+  font-size: var(--font-size-sm);
   color: var(--color-neutral-500);
 }
 
@@ -297,16 +309,16 @@ flex: 1;
 }
 
 .post-card__delete {
-margin-right: auto;
+  margin-right: auto;
 }
 
 .post-card__button {
-  min-width: 140px;
-  border-radius: var(--border-radius-full) !important;
+  min-width:140px;
+border-radius: var(--border-radius-full) !important;
   font-weight: var(--font-weight-semibold) !important;
   box-shadow: var(--shadow-sm) !important;
   display: flex;
-align-items: center;
+  align-items: center;
   justify-content: center;
   gap: var(--spacing-xs);
 }
@@ -316,27 +328,49 @@ align-items: center;
   transform: translateY(-2px) !important;
 }
 
-/* Modal Styles */
+.post-card__button--edit {
+  min-width: auto;
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+}
+
+/*Modal Styles */
+.my-dialog{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
 .post-details-modal {
   background: white;
- border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-lg);
   max-height: 90vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+ width: 100%;
+  max-width: 700px;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
 .post-details-modal__header {
   padding: var(--spacing-lg);
   border-bottom: 1px solid var(--color-neutral-200);
-  display: flex;
+  display:flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
 .post-details-modal__title {
   margin: 0;
-  font-size: var(--font-size-2xl);
+  font-size:var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-neutral-900);
   line-height: 1.3;
@@ -368,16 +402,16 @@ align-items: center;
 
 .post-details-modal__body {
   font-size: var(--font-size-base);
-  color: var(--color-neutral-700);
+ color: var(--color-neutral-700);
   line-height: 1.7;
   margin-bottom: var(--spacing-lg);
-  white-space: pre-wrap;
+white-space: pre-wrap;
 }
 
 .post-details-modal__info {
   background-color: var(--color-neutral-50);
   border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
+padding: var(--spacing-md);
 }
 
 .post-details-modal__info-item {
@@ -392,20 +426,25 @@ align-items: center;
 .post-details-modal__info-label {
   font-weight: var(--font-weight-semibold);
   color: var(--color-neutral-600);
- width: 100px;
+  width:100px;
   flex-shrink: 0;
 }
 
 .post-details-modal__info-value {
   color: var(--color-neutral-800);
-  flex: 1;
+ flex: 1;
 }
 
 .post-details-modal__actions {
   padding: var(--spacing-lg);
-  border-top: 1px solidvar(--color-neutral-200);
+  border-top: 1px solid var(--color-neutral-200);
   display: flex;
   justify-content: flex-end;
+  gap: var(--spacing-md);
+}
+
+.post-details-modal__edit-button {
+  margin-right: auto;
 }
 
 @media (max-width: 768px) {
@@ -415,24 +454,37 @@ align-items: center;
 
   .post-card__button {
     min-width: auto;
-    padding: var(--spacing-sm) var(--spacing-md) !important;
+    padding:var(--spacing-sm) var(--spacing-md) !important;
     font-size: var(--font-size-sm) !important;
   }
 
   .post-card__button span {
     display: none;
-  }
+ }
 
   .post-card__button {
     padding: var(--spacing-sm) !important;
-}
-  
+  }
+
   .post-details-modal__title {
     font-size: var(--font-size-xl);
   }
-  
+
   .post-details-modal__info-label {
     width: 80px;
+  }
+  
+  .post-details-modal__actions {
+    flex-direction: column;
+  }
+  
+  .post-details-modal__edit-button {
+    order: -1;
+    margin-right: 0;
+  }
+  
+  .post-details-modal__actions my-button {
+    width: 100%;
   }
 }
 </style>

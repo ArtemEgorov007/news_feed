@@ -10,7 +10,7 @@ import store from '@/features/posts/store/index.js';
 
 import '@/assets/base.css';
 import '@/assets/theme.css';
-import '@/assets/global.scss';
+import '@/assets/global.css';
 import '@/assets/dark-theme.css';
 
 const app = createApp(App);
