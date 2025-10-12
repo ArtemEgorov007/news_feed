@@ -7,7 +7,7 @@
           :post="element"
           @delete="$emit('delete', element.id)"
           @pin="togglePin"
-      />
+     />
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
   components: {PostItem},
 
   props: {
-    posts: {type: Array, required: true},
+    posts: {type: Array,required: true},
   },
 
   emits: ["delete"],
@@ -42,9 +42,15 @@ export default {
 
   computed: {
     sortedPosts() {
+      //Added safety check for posts array
+      if (!Array.isArray(this.posts)) return [];
+      
       return [...this.posts].sort((a, b) => {
-        if (a.pinned && !b.pinned) return -1;
-        if (!a.pinned && b.pinned) return 1;
+        // Added safety checks for pinned property
+        const aPinned = a.pinned || false;
+        const bPinned = b.pinned || false;
+if (aPinned && !bPinned) return -1;
+        if (!aPinned && bPinned) return 1;
         return 0;
       });
     },
@@ -54,7 +60,7 @@ export default {
     ...mapMutations("post", ["togglePin"]),
 
     handleResize() {
-      this.isMobile = window.innerWidth <= 768;
+this.isMobile = window.innerWidth <= 768;
     },
   },
 };
@@ -94,7 +100,7 @@ export default {
 
 .post-list__empty-title {
   color: var(--color-neutral-600);
-  font-weight: var(--font-weight-semibold);
+  font-weight:var(--font-weight-semibold);
   font-size: var(--font-size-xl);
 }
 
@@ -128,7 +134,7 @@ export default {
   }
   
   .post-list__title {
-    font-size: var(--font-size-2xl);
+font-size: var(--font-size-2xl);
   }
 }
 

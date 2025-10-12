@@ -8,7 +8,7 @@ export const postModule = {
     state: () => ({
         posts: [],
         localPosts: [],
-        favorites: [], // Addedfavorites array
+        favorites: [], // Added favorites array
         isPostsLoading: false,
         selectedSort: '',
         searchQuery: '',
@@ -21,8 +21,8 @@ export const postModule = {
             {value: "", name: "No sorting"},
             {value: "title", name: "By title"},
             {value: "body", name: "By description"}
-],
-       fallbackPosts: [
+        ],
+        fallbackPosts: [
             {
                 id: 1,
                 title: '🚀 Breakthrough in Quantum Computing Achieved',

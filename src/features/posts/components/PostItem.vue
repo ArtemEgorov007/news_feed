@@ -136,10 +136,12 @@ export default {
 
   computed: {
     isFavorite(){
-      // Check ifpost is in favorites
-      return this.$store.state.post.favorites.some(fav => fav.id === this.post.id);
+      // Check if post is in favorites
+      // Added safety check for store state
+      const favorites = this.$store.state.post?.favorites || [];
+      return favorites.some(fav => fav.id === this.post.id);
     }
-},
+  },
 
   methods: {
     onDelete() {
@@ -147,22 +149,33 @@ export default {
     },
 
     openArticle(url) {
-      window.open(url, '_blank');
+      // Added safety check for URL
+      if (url && url !== '#') {
+        window.open(url, '_blank');
+      }
     },
 
     formatDate(dateString) {
+      // Added safety check for date string
+      if (!dateString) return '';
+      
       const options = {year:'numeric', month: 'short', day: 'numeric'};
-     return new Date(dateString).toLocaleDateString(undefined, options);
+      const date = new Date(dateString);
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) return '';
+      
+      return date.toLocaleDateString(undefined, options);
     },
 
-   toggleFavorite() {
+    toggleFavorite() {
       if (this.isFavorite) {
         this.$store.commit("post/removeFavorite", this.post.id);
       } else {
-        //Create a copy of thepost to avoid reference issues
+        // Create a copy of the post to avoid reference issues
         const postCopy = {...this.post};
         this.$store.commit("post/addFavorite", postCopy);
-}
+      }
     }
   }
 };

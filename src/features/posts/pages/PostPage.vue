@@ -11,14 +11,14 @@
         </div>
 
         <div class="posts-page__search-container">
-          <my-input:model-value="searchQuery"
-              @update:model-value="setSearchQuery"
+          <my-input
+              v-model="searchQuery"
               placeholder="Search posts..."
               size="medium"
               class="posts-page__search"
           />
         </div>
-      </div>
+     </div>
 
       <div class="posts-page__actions">
         <div class="posts-page__controls">
@@ -38,12 +38,11 @@
           </my-button>
 
           <my-select
-              :model-value="selectedSort"
+              v-model="selectedSort"
              :options="sortOptions"
-              @update:model-value="setSelectedSort"
               placeholder="Sort by"
           />
-        </div>
+</div>
      </div>
     </header>
 
@@ -53,27 +52,27 @@
         <p class="loading-text">Loading posts...</p>
       </div>
 
-      <div v-else-if="sortedAndSearchedPosts.length === 0 && !isPostsLoading" class="posts-page__empty">
+      <div v-else-if="sortedAndSearchedPosts.length=== 0 && !isPostsLoading" class="posts-page__empty">
         <Icon icon="mdi:file-document-outline" width="64" height="64" class="posts-page__empty-icon"/>
-        <h3 class="posts-page__empty-title">No posts found</h3>
-        <p class="posts-page__empty-description">Try changing your search or check back later</p>
+<h3 class="posts-page__empty-title">No posts found</h3>
+       <p class="posts-page__empty-description">Try changing your search or check back later</p>
       </div>
 
       <post-list
           v-else
           :posts="sortedAndSearchedPosts"
-          @delete="deletePost"
+@delete="deletePost"
       />
 
-      <div v-if="isPostsLoading && page > 1" class="posts-page__loading-more">
+      <div v-if="isPostsLoading &&page > 1" class="posts-page__loading-more">
         <div class="loading-spinner"></div>
         <p>Loading more posts...</p>
       </div>
 
       <div v-intersection="loadMorePosts" class="posts-page__observer-target"></div>
 
-     <div v-if="error" class="error-message">
-        <Icon icon="mdi:alert-circle" width="24"height="24"/>
+      <div v-if="error" class="error-message">
+        <Icon icon="mdi:alert-circle" width="24" height="24"/>
         <div>
           <p><strong>Unable to load data from the server.</strong></p>
           <p>Displaying test data. {{ error }}</p>
@@ -86,17 +85,17 @@
       <my-button
           v-show="showScrollTop"
           class="posts-page__scroll-top"
-@click="scrollToTop"
+          @click="scrollToTop"
           title="Back to top"
       >
         <Icon icon="mdi:arrow-up" width="24" height="24"/>
       </my-button>
 </transition>
-  </div>
+ </div>
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters, mapMutations} from "vuex";
+import{mapState, mapActions, mapGetters, mapMutations}from "vuex";
 import {Icon} from "@iconify/vue";
 import {PostList} from "@/features/posts/components";
 
@@ -117,7 +116,7 @@ export default {
       "error",
       "favorites"
     ]),
-    ...mapGetters("post", ["sortedAndSearchedPosts"]),
+...mapGetters("post", ["sortedAndSearchedPosts"]),
 
     favoritesCount() {
       return this.favorites.length;
@@ -130,11 +129,11 @@ export default {
 
   methods: {
     ...mapMutations("post", [
-      "setSearchQuery",
+"setSearchQuery",
       "setSelectedSort",
       "setShowScrollTop",
       "removePost"
-    ]),
+]),
 
     ...mapActions("post", ["loadMorePosts", "fetchPosts"]),
 
@@ -143,7 +142,7 @@ export default {
     },
 
     scrollToTop() {
-      window.scrollTo({top: 0, behavior: "smooth"});
+     window.scrollTo({top:0, behavior: "smooth"});
     },
 
     handleScroll() {
@@ -157,14 +156,14 @@ export default {
   },
 
   beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+   window.removeEventListener("scroll", this.handleScroll);
   }
 };
 </script>
 
 <style scoped>
 .posts-page {
-  padding: 0;
+ padding: 0;
  max-width: 1200px;
   margin: 0 auto;
 }
@@ -172,7 +171,7 @@ export default {
 .posts-page__header {
   background: white;
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
+ box-shadow: var(--shadow-md);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
 }
@@ -185,8 +184,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-lg);
-  flex-wrap: wrap;
+ margin-bottom: var(--spacing-lg);
+ flex-wrap: wrap;
   gap:var(--spacing-md);
 }
 
@@ -198,9 +197,9 @@ export default {
 }
 
 .posts-page__header-left {
-  display: flex;
+ display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+gap: var(--spacing-lg);
   flex-wrap:wrap;
 }
 
@@ -208,10 +207,10 @@ export default {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-neutral-900);
-  margin: 0;
+ margin: 0;
 }
 
-.posts-page__favorites-link {
+.posts-page__favorites-link{
   display: flex;
 align-items: center;
 gap: var(--spacing-xs);
@@ -219,8 +218,8 @@ gap: var(--spacing-xs);
   color: var(--color-neutral-700);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-full);
-  text-decoration:none;
-  font-weight: var(--font-weight-medium);
+text-decoration:none;
+ font-weight: var(--font-weight-medium);
   transition: all var(--transition-fast);
 }
 
@@ -230,7 +229,7 @@ gap: var(--spacing-xs);
 }
 
 .posts-page__search-container {
-  flex: 1;
+  flex:1;
   min-width: 250px;
 }
 
@@ -242,7 +241,7 @@ gap: var(--spacing-xs);
   gap: var(--spacing-md);
 }
 
-@media (max-width: 768px) {
+@media(max-width: 768px) {
   .posts-page__actions{
     flex-direction: column;
     align-items: stretch;
@@ -256,7 +255,7 @@ gap: var(--spacing-xs);
   flex-wrap: wrap;
 }
 
-@media (max-width: 480px) {
+@media(max-width: 480px) {
   .posts-page__controls{
     flex-direction: column;
     align-items: stretch;
@@ -268,10 +267,10 @@ gap: var(--spacing-xs);
   align-items: center;
   gap: var(--spacing-xs);
   white-space: nowrap;
-  transition: all var(--transition-fast);
+  transition:all var(--transition-fast);
 }
 
-.posts-page__button--new {
+.posts-page__button--new{
   box-shadow: var(--shadow-md);
 }
 
@@ -307,7 +306,7 @@ flex-direction:column;
 border: 4px solid var(--color-neutral-200);
   border-top: 4px solid var(--color-primary-500);
   border-radius: 50%;
- animation: spin 1slinear infinite;
+ animation:spin 1slinear infinite;
   margin-bottom: 20px;
 }
 
@@ -316,18 +315,18 @@ border: 4px solid var(--color-neutral-200);
   font-size: var(--font-size-lg);
 }
 
-.posts-page__observer-target {
-  height: 20px;
+.posts-page__observer-target{
+height: 20px;
 }
 
 .posts-page__scroll-top{
-  position: fixed;
+ position: fixed;
 bottom: 30px;
   right: 30px;
   z-index: 1000;
   border-radius: var(--border-radius-full);
   width: 50px;
-  height: 50px;
+  height:50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -348,10 +347,10 @@ bottom: 30px;
  align-items: center;
   justify-content: center;
   padding: var(--spacing-2xl) var(--spacing-lg);
-  text-align: center;
-  background: white;
+  text-align:center;
+background: white;
   border-radius:var(--border-radius-lg);
- box-shadow: var(--shadow-md);
+box-shadow: var(--shadow-md);
 }
 
 .posts-page__empty-icon {
@@ -371,16 +370,16 @@ margin-bottom: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
 }
 
-.error-message {
+.error-message{
   background-color: var(--color-warning-50);
- border: 1px solid var(--color-warning-200);
+border:1px solid var(--color-warning-200);
   color: var(--color-warning-800);
   padding: var(--spacing-md);
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-lg);
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-sm);
+ gap: var(--spacing-sm);
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -391,7 +390,7 @@ margin-bottom: var(--spacing-sm);
   opacity: 0;
 }
 
-@keyframes spin {
+@keyframes spin{
   to {
     transform: rotate(360deg);
 }
@@ -408,7 +407,7 @@ margin-bottom: var(--spacing-sm);
   }
 
   .posts-page__search-container {
-    min-width: auto;
+    min-width:auto;
   }
 
   .posts-page__actions{
@@ -421,7 +420,7 @@ margin-bottom: var(--spacing-sm);
 
   .posts-page__button {
     justify-content: center;
-    width: 100%;
+width: 100%;
 }
 }
 </style>
