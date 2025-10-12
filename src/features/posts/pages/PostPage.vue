@@ -11,8 +11,7 @@
         </div>
 
         <div class="posts-page__search-container">
-          <my-input
-              :model-value="searchQuery"
+          <my-input:model-value="searchQuery"
               @update:model-value="setSearchQuery"
               placeholder="Search posts..."
               size="medium"
@@ -40,7 +39,7 @@
 
           <my-select
               :model-value="selectedSort"
-              :options="sortOptions"
+             :options="sortOptions"
               @update:model-value="setSelectedSort"
               placeholder="Sort by"
           />
@@ -74,10 +73,11 @@
       <div v-intersection="loadMorePosts" class="posts-page__observer-target"></div>
 
      <div v-if="error" class="error-message">
-        <Icon icon="mdi:alert-circle" width="24" height="24"/>
+        <Icon icon="mdi:alert-circle" width="24"height="24"/>
         <div>
           <p><strong>Unable to load data from the server.</strong></p>
           <p>Displaying test data. {{ error }}</p>
+         <p v-if="isGithubPages">Note: API access is restricted on GitHub Pages for security reasons.</p>
         </div>
       </div>
     </main>
@@ -86,7 +86,7 @@
       <my-button
           v-show="showScrollTop"
           class="posts-page__scroll-top"
-          @click="scrollToTop"
+@click="scrollToTop"
           title="Back to top"
       >
         <Icon icon="mdi:arrow-up" width="24" height="24"/>
@@ -121,7 +121,11 @@ export default {
 
     favoritesCount() {
       return this.favorites.length;
-   }
+   },
+    
+    isGithubPages() {
+      return window.location.hostname.includes('github.io');
+    }
   },
 
   methods: {
@@ -143,7 +147,7 @@ export default {
     },
 
     handleScroll() {
-      this.setShowScrollTop(window.scrollY > 500);
+      this.setShowScrollTop(window.scrollY> 500);
     }
   },
 
@@ -161,7 +165,7 @@ export default {
 <style scoped>
 .posts-page {
   padding: 0;
-  max-width: 1200px;
+ max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -197,7 +201,7 @@ export default {
   display: flex;
   align-items: center;
   gap: var(--spacing-lg);
-  flex-wrap: wrap;
+  flex-wrap:wrap;
 }
 
 .posts-page__title {
@@ -210,7 +214,7 @@ export default {
 .posts-page__favorites-link {
   display: flex;
 align-items: center;
-  gap: var(--spacing-xs);
+gap: var(--spacing-xs);
   background: var(--color-neutral-100);
   color: var(--color-neutral-700);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -303,7 +307,7 @@ flex-direction:column;
 border: 4px solid var(--color-neutral-200);
   border-top: 4px solid var(--color-primary-500);
   border-radius: 50%;
- animation: spin 1s linear infinite;
+ animation: spin 1slinear infinite;
   margin-bottom: 20px;
 }
 
@@ -318,7 +322,7 @@ border: 4px solid var(--color-neutral-200);
 
 .posts-page__scroll-top{
   position: fixed;
-  bottom: 30px;
+bottom: 30px;
   right: 30px;
   z-index: 1000;
   border-radius: var(--border-radius-full);
@@ -347,7 +351,7 @@ border: 4px solid var(--color-neutral-200);
   text-align: center;
   background: white;
   border-radius:var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
+ box-shadow: var(--shadow-md);
 }
 
 .posts-page__empty-icon {
@@ -358,7 +362,7 @@ border: 4px solid var(--color-neutral-200);
 .posts-page__empty-title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-neutral-800);
+color: var(--color-neutral-800);
 margin-bottom: var(--spacing-sm);
 }
 
@@ -369,7 +373,7 @@ margin-bottom: var(--spacing-sm);
 
 .error-message {
   background-color: var(--color-warning-50);
-  border: 1px solid var(--color-warning-200);
+ border: 1px solid var(--color-warning-200);
   color: var(--color-warning-800);
   padding: var(--spacing-md);
   border-radius: var(--border-radius-md);
@@ -390,7 +394,7 @@ margin-bottom: var(--spacing-sm);
 @keyframes spin {
   to {
     transform: rotate(360deg);
-  }
+}
 }
 
 @media (max-width: 768px) {

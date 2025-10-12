@@ -21,7 +21,9 @@ export const postActions = {
             console.error('Error fetching general news:', error);
             commit('setError', error.message);
             // Show fallback posts if API fails
-            commit('setPosts', state.fallbackPosts);
+            const fallbackData = newsService.getFallbackData(state.page, state.limit);
+            commit('setPosts', fallbackData.articles);
+            commit('setTotalPages', Math.ceil(fallbackData.totalResults / state.limit));
         } finally {
             commit('setLoading', false);
         }
@@ -45,6 +47,10 @@ export const postActions = {
         } catch (error) {
             console.error('Error loading more general news:', error);
             commit('setError', error.message);
+            // Add fallback posts if API fails
+            const fallbackData = newsService.getFallbackData(state.page, state.limit);
+            commit('addPosts', fallbackData.articles);
+            commit('setTotalPages', Math.ceil(fallbackData.totalResults / state.limit));
         } finally {
             commit('setLoading', false);
         }
