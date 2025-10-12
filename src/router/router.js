@@ -8,23 +8,23 @@ const routes = [
     {
         path: '/main',
         name: 'Main',
-        component: () => import('@/pages/Main.vue'),
+        component: () => import('@/features/posts/pages/Main.vue'),
     },
     {
         path: '/about',
         name: 'About',
-        component: () => import('@/pages/About.vue'),
+        component: () => import('@/features/posts/pages/About.vue'),
     },
     {
         path: '/posts',
         name: 'Posts',
-        component: () => import('@/pages/PostPage.vue'),
+        component: () => import('@/features/posts/pages/PostPage.vue'),
     },
+    // Removed the individual post route since we now use modals for detailed views
     {
-        path: '/posts/:id',
-        name: 'PostDetail',
-        component: () => import('@/pages/ContentPost.vue'),
-        props: true,
+        path: '/favorites',
+        name: 'Favorites',
+        component: () => import('@/features/posts/pages/FavoritesPage.vue'),
     },
 ]
 

@@ -1,0 +1,113 @@
+/* Global SCSS Variables & Mixins */
+
+/* Breakpoint mixins */
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: var(--breakpoint-sm)) {
+      @content;
+    }
+  }
+  
+  @if $breakpoint == md {
+    @media (min-width: var(--breakpoint-md)) {
+      @content;
+    }
+  }
+  
+  @if $breakpoint == lg {
+    @media (min-width: var(--breakpoint-lg)) {
+      @content;
+    }
+  }
+  
+  @if $breakpoint == xl {
+    @media (min-width: var(--breakpoint-xl)) {
+      @content;
+    }
+  }
+  
+  @if $breakpoint == 2xl {
+    @media (min-width: var(--breakpoint-2xl)) {
+      @content;
+    }
+  }
+}
+
+/* Card styles */
+.card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.dark-theme .card {
+  background: var(--color-card-background);
+}
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  
+  @media (max-width: 768px) {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* Grid system */
+.grid {
+  display: grid;
+  gap: var(--spacing-lg);
+  
+  &.grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  &.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  &.grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media (max-width: 768px) {
+    gap: var(--spacing-md);
+    
+    &.grid-cols-2,
+    &.grid-cols-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* Section spacing */
+.section {
+  padding: var(--spacing-2xl) 0;
+  
+  @media (max-width: 768px) {
+    padding: var(--spacing-xl) 0;
+  }
+  
+  &.section--sm {
+    padding: var(--spacing-xl) 0;
+    
+    @media (max-width: 768px) {
+      padding: var(--spacing-lg) 0;
+    }
+  }
+  
+  &.section--lg {
+    padding: var(--spacing-3xl) 0;
+    
+    @media (max-width: 768px) {
+      padding: var(--spacing-xl) 0;
+    }
+  }
+}

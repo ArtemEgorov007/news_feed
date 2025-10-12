@@ -1,0 +1,166 @@
+.dark-theme {
+  /* Dark Neutral Colors */
+  --color-neutral-50: #0f172a;  /* Darkest */
+  --color-neutral-100: #1e293b;
+  --color-neutral-200: #334155;
+  --color-neutral-300: #475569;
+  --color-neutral-400: #64748b;
+  --color-neutral-500: #94a3b8;
+  --color-neutral-600: #cbd5e1;
+  --color-neutral-700: #e2e8f0;
+  --color-neutral-800: #f1f5f9;
+  --color-neutral-900: #f8fafc;  /* Lightest */
+
+  /* Adjusted Primary Colors for dark mode */
+  --color-primary-50: #172554;   /* Darkest blue */
+  --color-primary-100: #1e3a8a;
+  --color-primary-200: #2563eb;
+  --color-primary-300: #3b82f6;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #93c5fd;
+  --color-primary-600: #bfdbfe;
+  --color-primary-700: rgba(191, 219, 254, 0.7);
+  --color-primary-800: #dbeafe;
+  --color-primary-900: #eff6ff;  /* Lightest blue */
+
+  /* Background and text colors */
+  --color-background: var(--color-neutral-900);
+  --color-text: var(--color-neutral-100);
+  --color-card-background: var(--color-neutral-800);
+  --color-border: var(--color-neutral-700);
+
+  /* Enhanced dark theme colors */
+  --color-success-500: #34d399;
+  --color-success-600: #10b981;
+  --color-warning-500: #fbbf24;
+  --color-warning-600: #f59e0b;
+  --color-error-500: #f87171;
+  --color-error-600: #ef4444;
+}
+
+.dark-theme body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.dark-theme .navbar {
+  background: linear-gradient(135deg, var(--color-primary-900), var(--color-primary-700));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+}
+
+.dark-theme .app-footer {
+  background-color: var(--color-neutral-800);
+  border-top: 1px solid var(--color-border);
+}
+
+.dark-theme .post-card {
+  background: var(--color-card-background);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .post-card__title {
+  color: var(--color-neutral-100);
+}
+
+.dark-theme .post-card__description {
+  color: var(--color-neutral-300);
+}
+
+.dark-theme .post-card__meta {
+  border-top: 1px solid var(--color-border);
+}
+
+.dark-theme .post-card__footer {
+  border-top: 1px solid var(--color-border);
+}
+
+.dark-theme .post-card__favorite:hover,
+.dark-theme .post-card__pin:hover {
+  background-color: var(--color-neutral-700);
+}
+
+.dark-theme .post-details-modal {
+  background: var(--color-card-background);
+}
+
+.dark-theme .post-details-modal__header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dark-theme .post-details-modal__info {
+  background-color: var(--color-neutral-700);
+}
+
+.dark-theme .post-details-modal__info-item:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dark-theme .post-details-modal__actions {
+  border-top: 1px solid var(--color-border);
+}
+
+.dark-theme .posts-page__header {
+  background: var(--color-card-background);
+  box-shadow: var(--shadow-md);
+}
+
+.dark-theme .posts-page__favorites-link {
+  background: var(--color-neutral-700);
+  color: var(--color-neutral-200);
+}
+
+.dark-theme .posts-page__favorites-link:hover {
+  background: var(--color-neutral-600);
+  color: var(--color-neutral-100);
+}
+
+.dark-theme .hero__button--primary {
+  background-color: var(--color-primary-600);
+  color: white;
+}
+
+.dark-theme .hero__button--primary:hover {
+  background-color: var(--color-primary-500);
+}
+
+.dark-theme .hero__button--secondary {
+  background-color: transparent;
+  color: var(--color-primary-400);
+  border-color: var(--color-primary-400);
+}
+
+.dark-theme .hero__button--secondary:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.dark-theme .favorites-page__header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dark-theme .favorites-page__back {
+  color: var(--color-primary-400);
+}
+
+.dark-theme .favorites-page__back:hover {
+  color: var(--color-primary-300);
+}
+
+.dark-theme .posts-page__empty {
+  background: var(--color-card-background);
+  box-shadow: var(--shadow-md);
+}
+
+.dark-theme .posts-page__empty-title {
+  color: var(--color-neutral-100);
+}
+
+.dark-theme .posts-page__empty-description {
+  color: var(--color-neutral-400);
+}
+
+.dark-theme .error-message {
+  background-color: var(--color-warning-900);
+  border: 1px solid var(--color-warning-700);
+  color: var(--color-warning-200);
+}
