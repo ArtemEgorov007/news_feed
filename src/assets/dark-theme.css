@@ -179,7 +179,7 @@
 }
 
 .dark-theme .posts-page__empty {
-    background: var(--color-card-background);
+    background: var(--color-card-background) !important;
 }
 
 .dark-theme .posts-page__empty-title {

@@ -1,6 +1,6 @@
 <template>
   <div class="app-layout">
-    <navbar></navbar>
+    <navbar v-if="!isMobile" class="desktop-nav"></navbar>
 
     <main class="app-main">
       <router-view></router-view>
@@ -15,14 +15,39 @@
         </div>
       </div>
     </footer>
-  </div>
+    
+    <MobileNav />
+    <NotificationContainer />
+ </div>
 </template>
 
 <script>
 import Navbar from "@/shared/ui/Navbar.vue";
+import MobileNav from "@/shared/ui/MobileNav.vue";
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export default {
-  components: {Navbar}
+  components: {Navbar, MobileNav},
+  setup() {
+    const isMobile = ref(false);
+
+    const checkMobile = () => {
+      isMobile.value = window.innerWidth <= 768;
+    };
+
+    onMounted(() => {
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', checkMobile);
+    });
+
+    return {
+      isMobile
+    };
+  }
   // Removed duplicate theme application code since it's handled in ThemeSwitcher.vue
 }
 </script>
@@ -32,6 +57,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-bottom: 0;
 }
 
 .app-main {
@@ -55,7 +81,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+max-width: 1200px;
   margin: 0 auto;
   flex-wrap: wrap;
   gap: var(--spacing-md);
@@ -80,7 +106,7 @@ export default {
   color: var(--color-primary-400);
 }
 
-.dark-theme .app-footer__links a:hover {
+.dark-theme.app-footer__links a:hover {
   color: var(--color-primary-300);
 }
 
@@ -92,6 +118,7 @@ export default {
 
   .app-main {
     padding: var(--spacing-md);
+    padding-bottom: 70px; /* Space for mobile nav */
   }
 }
 </style>

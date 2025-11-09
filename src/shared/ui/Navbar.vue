@@ -1,38 +1,34 @@
 <template>
   <nav class="navbar">
-    <div class="navbar__brand">
-      <router-link to="/" class="navbar__logo">
-        <span class="navbar__logo-text">NewsFeed</span>
-      </router-link>
-    </div>
+    <div class="navbar__progress-overlay" :style="{ width: scrollProgress + '%' }"></div>
 
-    <ul class="navbar__list">
-      <li>
-        <router-link to="/posts" class="navbar__link">
-          <Icon icon="mdi:home" width="20" height="20"/>
+    <div class="navbar__content">
+      <div class="navbar__brand">
+        <router-link to="/" class="navbar__logo">
+          <span class="navbar__logo-text">NewsFeed</span>
         </router-link>
-      </li>
-      <li>
-        <router-link to="/favorites" class="navbar__link">
-          <Icon icon="mdi:heart" width="20" height="20"/>
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/about" class="navbar__link">
-          <Icon icon="mdi:information" width="20" height="20"/>
-        </router-link>
-      </li>
-      <li>
-        <theme-switcher />
-      </li>
-    </ul>
-    
-    <!-- Progress bar -->
-    <div class="navbar__progress">
-      <div 
-        class="navbar__progress-bar" 
-        :style="{ width: scrollProgress + '%' }"
-      ></div>
+      </div>
+
+      <ul class="navbar__list">
+        <li>
+          <router-link to="/posts" class="navbar__link">
+            <Icon icon="mdi:home" width="20" height="20"/>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/favorites" class="navbar__link">
+            <Icon icon="mdi:heart" width="20" height="20"/>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/about" class="navbar__link">
+            <Icon icon="mdi:information" width="20" height="20"/>
+          </router-link>
+        </li>
+        <li>
+          <theme-switcher />
+        </li>
+      </ul>
     </div>
   </nav>
 </template>
@@ -54,7 +50,6 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
-    // Initialize progress on load in case we're not at the top
     this.handleScroll();
   },
   beforeUnmount() {
@@ -82,11 +77,32 @@ export default {
   position: sticky;
   top: 0;
   z-index: 100;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar__progress-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+  transition: width 0.1s ease-out;
+ z-index: -1;
+}
+
+.navbar__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .navbar__brand {
   display: flex;
-  align-items: center;
+  align-items:center;
 }
 
 .navbar__logo {
@@ -131,7 +147,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255,255, 0.1);
   opacity: 0;
   transition: opacity var(--transition-fast);
   z-index: -1;
@@ -139,7 +155,8 @@ export default {
 
 .navbar__link:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+ color: white;
+  transform: translateY(-2px);
 }
 
 .navbar__link:hover::before {
@@ -148,22 +165,16 @@ export default {
 
 .navbar__link.router-link-exact-active {
   background-color: rgba(255, 255, 255, 0.2);
-  color: white;
+  color:white;
 }
 
-.navbar__progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: rgba(255, 255, 255, 0.2);
+.dark-theme .navbar {
+  background: linear-gradient(135deg, var(--color-neutral-50), var(--color-neutral-100));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.navbar__progress-bar {
-  height: 100%;
-  background-color: var(--color-primary-300);
-  transition: width 0.1s ease-out;
+.dark-theme .navbar__progress-overlay {
+  background: linear-gradient(135deg, var(--color-neutral-100), var(--color-neutral-200));
 }
 
 .dark-theme .navbar__link {
@@ -176,7 +187,7 @@ export default {
 
 .dark-theme .navbar__link:hover {
   background-color: rgba(255, 255, 255, 0.15);
-  color: white;
+ color: white;
 }
 
 .dark-theme .navbar__link.router-link-exact-active {
@@ -186,7 +197,7 @@ export default {
 
 @media (max-width: 768px) {
   .navbar {
-    padding: var(--spacing-sm) var(--spacing-md);
+padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .navbar__logo-text {
@@ -201,7 +212,7 @@ export default {
     display: none;
   }
 
-  .navbar__link {
+ .navbar__link {
     padding: var(--spacing-sm);
   }
 }

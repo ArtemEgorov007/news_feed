@@ -1,68 +1,71 @@
-# 🚀 News Feed — Vue 3 + Vite Pet Project
+# 🚀 News Feed — Modern Vue 3 News Application
 
-**News Feed** — это учебный проект на базе **Vue 3** и **Vite**, в котором я исследую новые подходы, тренирую архитектурное мышление и оттачиваю работу с современными инструментами фронтенда.
-Основная идея — демонстрация работы с API, управление состоянием и интерактивный UI с drag-and-drop.
-
----
-
-## ✨ Возможности проекта
-
-* ⚡ **Быстрая сборка** и горячая перезагрузка (Vite)
-* 🎨 **Vue 3 (Composition API + SFC)** для модульной архитектуры
-* 📌 **Закрепление постов** и drag-and-drop (перетаскивание)
-* 🛠 Кастомные директивы и UI-компоненты
-* 📱 **Адаптивный дизайн** для разных устройств
-* 🌌 Акцент на **чистоту кода** и поддерживаемость
-* 🤖 **Технологические новости** с использованием NewsAPI
+**News Feed** is a modern news application built with **Vue 3** and **Vite** that demonstrates best practices in frontend development. This project showcases API integration, state management, responsive UI design, and modern development techniques.
 
 ---
 
-## 🛠 Технологии
+## ✨ Key Features
 
-* [Vue 3](https://vuejs.org/) — современный фронтенд-фреймворк
-* [Vite](https://vitejs.dev/) — сверхбыстрый инструмент сборки
-* [Vuex](https://vuex.vuejs.org/) — централизованное управление состоянием
-* [Vue Router](https://router.vuejs.org/) — маршрутизация
-* [vuedraggable](https://github.com/SortableJS/vue.draggable.next) — drag-and-drop
-* [Iconify](https://iconify.design/) — универсальные иконки
-* [NewsAPI](https://newsapi.org/) — для получения актуальных технологических новостей
+* ⚡ **Lightning Fast Development** with Vite's hot module replacement
+* 🎨 **Vue 3 Composition API** with Single File Components (SFC)
+* 📱 **Fully Responsive Design** that works on all device sizes
+* 🌙 **Dark/Light Theme Switching** with persistent user preferences
+* ❤️ **Favorites System** to save and manage preferred articles
+* 🔍 **Search & Sort Functionality** to find relevant content
+* 📚 **Infinite Scrolling** for seamless content browsing
+* 🛠 **Custom Directives** and reusable UI components
+* 🌌 **Clean, Maintainable Code** following modern best practices
+* 📰 **Real-time Technology News** powered by NewsAPI
 
 ---
 
-## 📦 Установка и запуск
+## 🛠 Technologies & Tools
 
-### 1. Клонирование репозитория
+* [Vue 3](https://vuejs.org/) - Progressive JavaScript framework
+* [Vite](https://vitejs.dev/) - Next generation frontend tooling
+* [Vuex](https://vuex.vuejs.org/) - State management pattern + library
+* [Vue Router](https://router.vuejs.org/) - Official router for Vue.js
+* [Iconify](https://iconify.design/) - Universal icon framework
+* [NewsAPI](https://newsapi.org/) - Real-time news API service
+* [Axios](https://axios-http.com/) - Promise based HTTP client
+* CSS Variables & Modern CSS Features
+
+---
+
+## 📦 Installation & Setup
+
+### 1. Clone the Repository
 
 ```sh
 git clone https://github.com/your-username/news_feed.git
 cd news_feed
 ```
 
-### 2. Установка зависимостей
+### 2. Install Dependencies
 
 ```sh
 npm install
 ```
 
-### 3. Настройка переменных окружения
+### 3. Environment Configuration
 
-Создайте файл `.env` в корне проекта и добавьте ваш NewsAPI ключ:
+Create a `.env` file in the project root and add your NewsAPI key:
 
 ```env
 VITE_NEWS_API_KEY=your_newsapi_key_here
 ```
 
-Чтобы получить ключ API, зарегистрируйтесь на [newsapi.org](https://newsapi.org/) - это бесплатно.
+To obtain an API key, register for free at [newsapi.org](https://newsapi.org/).
 
-### 4. Запуск в режиме разработки
+### 4. Development Server
 
 ```sh
 npm run dev
 ```
 
-Откройте [http://localhost:5173](http://localhost:5173), чтобы увидеть проект.
+Open [http://localhost:5173](http://localhost:5173) to view the application.
 
-### 5. Сборка для продакшена
+### 5. Production Build
 
 ```sh
 npm run build
@@ -70,52 +73,76 @@ npm run build
 
 ---
 
-## 🖥 Использование
+## 🖥 Application Features
 
-Приложение загружает технологические новости с [NewsAPI](https://newsapi.org/) и отображает их в виде ленты.
-Функциональность:
+The application fetches real-time technology news from [NewsAPI](https://newsapi.org/) and presents them in an engaging interface:
 
-* Просмотр списка технологических новостей
-* Открытие отдельной новости по ID
-* Перетаскивание и закрепление новостей
-* Базовое редактирование новостей (в демо-режиме)
-* Возможность перейти к полной статье на сайте источника
-
----
-
-## 🐞 Известные ограничения
-
-- Приложение использует бесплатный план NewsAPI, который имеет ограничения по количеству запросов
-- Часть функций находится в стадии эксперимента и может работать нестабильно
-- Данные о закреплении и порядке новостей сбрасываются после перезагрузки страницы
-
-### 🚀 Рекомендации по улучшению
-
-- Ограничить количество загружаемых новостей за раз
-- Добавить **пагинацию** или **ленивую загрузку** для оптимизации интерфейса
-- Расширить функциональность:
-    - ✏️ поддержка мультиязычности
-    - 📌 улучшенное закрепление новостей
-    - 🎨 переключение цветовых тем
-    - 🔑 авторизация пользователей
-    - 📊 отдельные страницы дашборда со статистикой и списком избранных новостей
-- Активнее использовать **Composition API** для улучшения архитектуры проекта
+* **News Feed**: Browse the latest technology news articles
+* **Favorites**: Save articles to your personal favorites list
+* **Search**: Find specific articles by keywords
+* **Sorting**: Sort articles by title or description
+* **Infinite Scroll**: Automatically load more articles as you scroll
+* **Responsive Design**: Optimized for mobile, tablet, and desktop
+* **Theme Switching**: Toggle between light and dark themes
+* **External Links**: Read full articles on their original sources
+* **Detailed View**: View article details in a modal popup
 
 ---
 
-## 🤝 Вклад в проект
+## 🎨 UI/UX Improvements
 
-PR и предложения приветствуются.
-Если вы хотите помочь в развитии проекта:
+Recent enhancements to the user interface include:
 
-1. Сделайте форк
-2. Создайте ветку для своей фичи (`git checkout -b feature/your-feature`)
-3. Сделайте изменения и закоммитьте (`git commit -m "Add new feature"`)
-4. Отправьте PR
+* **Modern Card Design**: Enhanced visual hierarchy and improved readability
+* **Smooth Animations**: Subtle transitions and hover effects for better user experience
+* **Skeleton Loading**: Animated placeholders during content loading
+* **Enhanced Notifications**: Beautiful toast notifications with different types (success, error, info, warning)
+* **Improved Accessibility**: Better keyboard navigation and screen reader support
+* **Focus Management**: Proper focus handling for modals and interactive elements
 
 ---
 
-## 📄 Лицензия
+## 🐞 Known Limitations
 
-Этот проект распространяется под лицензией **MIT**.
-Свободно используйте, модифицируйте и улучшайте.
+* The application uses the free tier of NewsAPI which has request limitations
+* Data persistence is limited to browser session (favorites reset on page reload)
+* Some experimental features may have inconsistent behavior
+
+---
+
+## 🚀 Future Improvements
+
+Planned enhancements for the application:
+
+- [ ] Implement local storage for persistent data saving
+- [ ] Add pagination as an alternative to infinite scrolling
+- [ ] Support for multiple news categories
+- [ ] User authentication and personalized feeds
+- [ ] Advanced filtering options
+- [ ] Offline support with service workers
+- [ ] Progressive Web App (PWA) capabilities
+- [ ] Performance optimization for large datasets
+- [ ] Enhanced accessibility features
+- [ ] Internationalization support
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute to this project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m "Add new feature"`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
+
+Please ensure your code follows the existing style and includes appropriate tests.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+Feel free to use, modify, and distribute this project as you see fit.

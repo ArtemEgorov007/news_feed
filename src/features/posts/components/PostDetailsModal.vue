@@ -1,12 +1,12 @@
 <template>
-  <div class="my-dialog" @click="$emit('close')">
+  <div class="my-dialog" @click="$emit('close')"role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="post-details-modal" @click.stop>
       <div class="post-details-modal__header">
-        <h2 class="post-details-modal__title">{{ post.title }}</h2>
-        <button
-          class="post-details-modal__close"
+        <h2 id="modal-title" class="post-details-modal__title">{{ post.title }}</h2>
+        <button class="post-details-modal__close"
           @click="$emit('close')"
           aria-label="Close dialog"
+         ref="closeButton"
         >
           <Icon icon="mdi:close" width="24" height="24"/>
         </button>
@@ -17,7 +17,7 @@
 
         <div class="post-details-modal__info">
           <div v-if="post.source" class="post-details-modal__info-item">
-            <span class="post-details-modal__info-label">Source:</span>
+<span class="post-details-modal__info-label">Source:</span>
             <span class="post-details-modal__info-value">{{ post.source }}</span>
           </div>
 
@@ -28,18 +28,17 @@
         </div>
       </div>
 
-      <div class="post-details-modal__actions">
+     <div class="post-details-modal__actions">
         <my-button @click="$emit('close')" variant="secondary">
-          Close
-        </my-button>
+          Close</my-button>
 
         <my-button
           v-if="post.url && post.url !== '#'"
           @click="openArticle(post.url)"
           variant="primary"
-        >
+       >
           <Icon icon="mdi:open-in-new" width="16" height="16"/>
-          <span>Read Full Article</span>
+          <span>ReadFull Article</span>
         </my-button>
       </div>
     </div>
@@ -48,11 +47,11 @@
 
 <script>
 import {Icon} from "@iconify/vue";
-import { formatDate } from "@/shared/lib/utils/dateUtils.js";
+import {formatDate } from "@/shared/lib/utils/dateUtils.js";
 
 export default {
   name: "PostDetailsModal",
-  components: {Icon},
+  components:{Icon},
 
   props: {
     post: {type: Object, required: true}
@@ -60,10 +59,33 @@ export default {
 
   emits: ["close"],
 
+  mounted() {
+    // Focus the close button when modalopens
+    this.$nextTick(() => {
+      if (this.$refs.closeButton) {
+        this.$refs.closeButton.focus();
+      }
+    });
+
+    // Add escape key listener
+    document.addEventListener('keydown', this.handleKeydown);
+  },
+
+  beforeUnmount() {
+    // Remove escape key listenerdocument.removeEventListener('keydown', this.handleKeydown);
+  },
+
   methods: {
     openArticle(url) {
       if (url && url !== '#') {
         window.open(url, '_blank');
+      }
+    },
+
+    handleKeydown(event) {
+      // Close modal on Escape key
+      if (event.key === 'Escape') {
+        this.$emit('close');
       }
     },
 
@@ -79,24 +101,26 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .post-details-modal {
   background: white;
-  border-radius: var(--border-radius-lg);
+  border-radius: 20px;
   max-height: 90vh;
-  overflow: hidden;
+overflow: hidden;
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   transform: translateY(0);
   transition: transform 0.3s ease;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
 }
 
 .dark-theme .post-details-modal {
@@ -104,7 +128,7 @@ export default {
 }
 
 .post-details-modal__header {
-  padding: var(--spacing-lg);
+  padding: 32px;
   border-bottom: 1px solid var(--color-neutral-200);
   display: flex;
   justify-content: space-between;
@@ -113,14 +137,10 @@ export default {
 
 .post-details-modal__title {
   margin: 0;
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font-size: 32px;
+  font-weight: 700;
   color: var(--color-neutral-900);
   line-height: 1.3;
-}
-
-.dark-theme .post-details-modal__title {
-  color: var(--color-neutral-500);
 }
 
 .post-details-modal__close {
@@ -128,17 +148,20 @@ export default {
   border: none;
   color: var(--color-neutral-500);
   cursor: pointer;
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-full);
-  transition: all var(--transition-fast);
+  padding: 12px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
 }
 
 .post-details-modal__close:hover {
-  background-color: var(--color-neutral-100);
+ background-color: var(--color-neutral-100);
   color: var(--color-neutral-700);
+  transform: rotate(90deg);
 }
 
 .dark-theme .post-details-modal__close:hover {
@@ -147,36 +170,36 @@ export default {
 }
 
 .post-details-modal__content {
-  padding: var(--spacing-lg);
+  padding: 32px;
   overflow-y: auto;
   flex: 1;
 }
 
 .post-details-modal__body {
-  font-size: var(--font-size-base);
+  font-size: 18px;
   color: var(--color-neutral-700);
-  line-height: 1.7;
-  margin-bottom: var(--spacing-lg);
+  line-height: 1.8;
+  margin-bottom: 32px;
   white-space: pre-wrap;
 }
 
 .dark-theme .post-details-modal__body {
-  color: var(--color-neutral-500);
+  color: var(--color-neutral-300);
 }
 
 .post-details-modal__info {
   background-color: var(--color-neutral-50);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
+  border-radius: 16px;
+  padding: 24px;
 }
 
-.dark-theme .post-details-modal__info {
-  background-color: var(--color-neutral-500);
+.dark-theme.post-details-modal__info {
+  background-color: var(--color-neutral-800);
 }
 
 .post-details-modal__info-item {
   display: flex;
-  padding: var(--spacing-sm) 0;
+  padding: 12px 0;
 }
 
 .post-details-modal__info-item:not(:last-child) {
@@ -184,23 +207,24 @@ export default {
 }
 
 .dark-theme .post-details-modal__info-item:not(:last-child) {
-  border-bottom: 1px solid var(--color-neutral-600);
+  border-bottom: 1px solid var(--color-neutral-700);
 }
 
 .post-details-modal__info-label {
-  font-weight: var(--font-weight-semibold);
+  font-weight: 600;
   color: var(--color-neutral-600);
-  width: 100px;
+  width: 120px;
   flex-shrink: 0;
 }
 
 .dark-theme .post-details-modal__info-label {
-  color: var(--color-neutral-300);
+  color: var(--color-neutral-400);
 }
 
 .post-details-modal__info-value {
   color: var(--color-neutral-800);
   flex: 1;
+  font-weight: 500;
 }
 
 .dark-theme .post-details-modal__info-value {
@@ -208,24 +232,30 @@ export default {
 }
 
 .post-details-modal__actions {
-  padding: var(--spacing-lg);
+  padding: 32px;
   border-top: 1px solid var(--color-neutral-200);
   display: flex;
   justify-content: flex-end;
-  gap: var(--spacing-md);
+  gap: 16px;
 }
 
 .dark-theme .post-details-modal__actions {
-  border-top: 1px solid var(--color-neutral-700);
+  border-top: 1pxsolid var(--color-neutral-700);
 }
 
 @media (max-width: 768px) {
   .post-details-modal__title {
-    font-size: var(--font-size-xl);
+    font-size: 24px;
+  }
+
+  .post-details-modal__header,
+  .post-details-modal__content,
+  .post-details-modal__actions {
+    padding: 24px;
   }
 
   .post-details-modal__info-label {
-    width: 80px;
+    width: 100px;
   }
 
   .post-details-modal__actions {
@@ -234,6 +264,11 @@ export default {
 
   .post-details-modal__actions my-button {
     width: 100%;
+  }
+
+  .post-details-modal {
+    margin: 20px;
+    max-height: calc(100vh - 40px);
   }
 }
 </style>
